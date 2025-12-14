@@ -25,7 +25,9 @@ function subs(sender){
 
 
 async function workOnExplore(){
+    
     await sleep(3000);
+    chrome.runtime.sendMessage({action: "back",text: "subs-load"});
     let elements_for_subs = [];
     const all_btns = document.getElementsByTagName('div');
     console.log(all_btns);
@@ -39,7 +41,7 @@ async function workOnExplore(){
             await sleep(randomMs);
         }
     };
-    chrome.runtime.sendMessage({action: "back",text: "subs-load"});
+    
     console.log(elements_for_subs);
 
     function sleep(ms){

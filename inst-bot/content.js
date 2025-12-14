@@ -1,17 +1,43 @@
+let max_likes = 80;
 
-
-
-
+async function sleep(ms) {
+    return new Promise(resolve=>setTimeout(resolve,ms));
+}
 function start(){
     console.log('start');
     chrome.runtime.sendMessage({action: "main",text:"subs"});
 };
 
-function subs(){
-    const wait_storys = waitElemnt('.x1n2onr6');
-    console.log(wait_storys);
-    if(wait_storys){
-        wait_storys.click();
+async function subs(){
+    try{
+
+        const wait_storys = await waitElemnt({element: '.x1n2onr6'});
+        console.log(wait_storys);
+        if(wait_storys){
+            const profileImg = document.querySelector('img[alt^="Фото профиля"]');
+            profileImg.click();
+            let index = 0;
+            for(let i=0; i < max_likes; i++){
+                console.log(i);
+                const like = await waitElemnt({element: 'svg[aria-label^="Нравится"]'})
+                if (like){
+                    const likeBtn = like.closest('div[role="button"]');
+                    likeBtn.click();
+                };
+                await sleep(300);
+                const next = await waitElemnt({element: 'svg[aria-label^="Далее"]'});
+                
+                if(next){
+                    const nextBtn = next.closest('div[role="button"]');
+                    nextBtn.click();
+                };
+            }
+               
+            
+
+        }
+    }catch(err){
+        console.log(err);
     };
 }
 function waitElemnt({
