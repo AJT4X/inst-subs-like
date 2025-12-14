@@ -8,24 +8,24 @@ function start(){
 };
 
 function subs(){
-    
+    const wait_storys = waitElemnt('.x1n2onr6');
+    console.log(wait_storys);
+    if(wait_storys){
+        wait_storys.click();
+    };
 }
 function waitElemnt({
     element,
     timeout = 3000,
     root = document
 }){
-    try{
-
-        
+    try{ 
         const check = () => {
             const el = document.querySelector(element);
             if(!el) return false;
             return el;
         };
-
         return new Promise(resolve=>{
-            
             if(check()){
                 resolve(check());
                 return
@@ -67,6 +67,7 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
     }
     else if(message.text == 'subs-load'){
         console.log('subs');
+        subs();
     };
 });
 

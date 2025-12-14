@@ -2,7 +2,7 @@
     "manifest_version" : 3 ,
 
     "name" : "Instagram Auto-Life",
-    "version" : "1.0.1",
+    "version" : "1.1.0",
     "description" : "Existions for auto subs.and likes",
     "action" : {
         "default_popup" : "popup.html"

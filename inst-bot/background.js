@@ -1,4 +1,4 @@
-
+let main_tab_id = null;
 
 
 function subs(sender){
@@ -26,22 +26,20 @@ function subs(sender){
 
 async function workOnExplore(){
     await sleep(3000);
-    elements_for_subs = [];
+    let elements_for_subs = [];
     const all_btns = document.getElementsByTagName('div');
+    console.log(all_btns);
     for(const check_subs of all_btns){
-        if(check_subs.textContent.includes('Подписаться')){
+        if(check_subs.textContent.trim()=='Подписаться'){
             elements_for_subs.push(check_subs);
-            const randomMs = Math.floor(Math.random() * 2000) + 1000;
+            const randomMs = Math.floor(Math.random() * 1000);
+            console.log(randomMs);
+            check_subs.click();
+            console.log(check_subs,'click');
             await sleep(randomMs);
-            check_subs.dispatchEvent(
-                new MouseEvent("click",{
-                    bubbles: true,
-                    cancelable: true,
-                    view: window
-                })
-            )
         }
     };
+    chrome.runtime.sendMessage({action: "back",text: "subs-load"});
     console.log(elements_for_subs);
 
     function sleep(ms){
@@ -51,8 +49,14 @@ async function workOnExplore(){
 
 chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
    if(message.text == 'subs'){
+    main_tab_id = sender.tab.id;
     subs(sender.tab.id);
-   };
+   }
+   if (message.text === 'subs-load'){
+    chrome.tabs.sendMessage(main_tab_id,{
+        text: "subs-load"
+    });
+   }
 });
 
 
