@@ -1,5 +1,7 @@
 let max_likes = 80;
-
+chrome.storage.get(['likes'],(data)=>{
+    max_likes = data.likes;
+});
 async function sleep(ms) {
     return new Promise(resolve=>setTimeout(resolve,ms));
 }
